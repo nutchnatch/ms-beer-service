@@ -1,1 +1,3 @@
-# ms-beer-service
+# MS Beer Service
+
+Springboot Microservice
