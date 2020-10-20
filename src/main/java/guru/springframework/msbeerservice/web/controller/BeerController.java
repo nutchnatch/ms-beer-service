@@ -14,6 +14,7 @@ import java.util.UUID;
 @RestController
 public class BeerController {
 
+    @Autowired
     private BeerService beerService;
 
     @GetMapping("/{beerId}")
