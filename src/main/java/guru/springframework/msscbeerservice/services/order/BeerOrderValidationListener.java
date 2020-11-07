@@ -11,6 +11,25 @@ import org.springframework.stereotype.Component;
 /**
  * Created by jt on 12/2/19.
  */
+//@RequiredArgsConstructor
+//@Component
+//public class BeerOrderValidationListener {
+//
+//    private final BeerOrderValidator validator;
+//    private final JmsTemplate jmsTemplate;
+//
+//    @JmsListener(destination = JmsConfig.VALIDATE_ORDER_QUEUE)
+//    public void listen(ValidateOrderRequest validateOrderRequest){
+//        Boolean isValid = validator.validateOrder(validateOrderRequest.getBeerOrder());
+//
+//        jmsTemplate.convertAndSend(JmsConfig.VALIDATE_ORDER_RESPONSE_QUEUE,
+//                ValidateOrderResult.builder()
+//                    .isValid(isValid)
+//                    .orderId(validateOrderRequest.getBeerOrder().getId())
+//                    .build());
+//    }
+//}
+
 @RequiredArgsConstructor
 @Component
 public class BeerOrderValidationListener {
@@ -19,13 +38,12 @@ public class BeerOrderValidationListener {
     private final JmsTemplate jmsTemplate;
 
     @JmsListener(destination = JmsConfig.VALIDATE_ORDER_QUEUE)
-    public void listen(ValidateOrderRequest validateOrderRequest){
-        Boolean isValid = validator.validateOrder(validateOrderRequest.getBeerOrder());
+    public void listen(ValidateOrderRequest validateOrderRequest) {
 
-        jmsTemplate.convertAndSend(JmsConfig.VALIDATE_ORDER_RESPONSE_QUEUE,
-                ValidateOrderResult.builder()
-                    .isValid(isValid)
-                    .orderId(validateOrderRequest.getBeerOrder().getId())
-                    .build());
+        final boolean isValid = validator.validateOrder(validateOrderRequest.getBeerOrder());
+        jmsTemplate.convertAndSend(JmsConfig.VALIDATE_ORDER_RESPONSE_QUEUE, ValidateOrderResult.builder()
+                .isValid(isValid)
+                .orderId(validateOrderRequest.getBeerOrder().getId())
+                .build());
     }
 }

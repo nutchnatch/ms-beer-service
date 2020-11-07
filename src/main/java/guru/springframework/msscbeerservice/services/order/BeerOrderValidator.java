@@ -1,5 +1,6 @@
 package guru.springframework.msscbeerservice.services.order;
 
+import guru.sfg.brewery.model.BeerDto;
 import guru.sfg.brewery.model.events.BeerOrderDto;
 import guru.springframework.msscbeerservice.repositories.BeerRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,27 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Created by jt on 12/2/19.
  */
+//@Slf4j
+//@RequiredArgsConstructor
+//@Component
+//public class BeerOrderValidator {
+//
+//    private final BeerRepository beerRepository;
+//
+//    public Boolean validateOrder(BeerOrderDto beerOrder){
+//
+//        AtomicInteger beersNotFound = new AtomicInteger();
+//
+//        beerOrder.getBeerOrderLines().forEach(orderline -> {
+//            if(beerRepository.findByUpc(orderline.getUpc()) == null){
+//                beersNotFound.incrementAndGet();
+//            }
+//        });
+//
+//        return beersNotFound.get() == 0;
+//    }
+//
+//}
 @Slf4j
 @RequiredArgsConstructor
 @Component
@@ -18,17 +40,14 @@ public class BeerOrderValidator {
 
     private final BeerRepository beerRepository;
 
-    public Boolean validateOrder(BeerOrderDto beerOrder){
+    public boolean validateOrder(BeerOrderDto beerOrder) {
 
         AtomicInteger beersNotFound = new AtomicInteger();
-
-        beerOrder.getBeerOrderLines().forEach(orderline -> {
-            if(beerRepository.findByUpc(orderline.getUpc()) == null){
+        beerOrder.getBeerOrderLines().forEach(orderLine -> {
+            if(beerRepository.findByUpc(orderLine.getUpc()) == null) {
                 beersNotFound.incrementAndGet();
             }
         });
-
         return beersNotFound.get() == 0;
     }
-
 }
